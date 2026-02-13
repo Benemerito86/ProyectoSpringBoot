@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>SaaS Core Semana 1</title></head>
+<body>
+<h1>Elige tu Plan (Semana 1)</h1>
+
+<form action="/subscribe" method="post">
+    <select name="planId">
+        <option th:each="plan : ${plans}" th:value="${plan.id}" th:text="${plan.name} + ' - ' + ${plan.price}"></option>
+    </select>
+    <button type="submit">Suscribirse</button>
+</form>
+
+<h2>Suscripciones Activas</h2>
+<ul>
+    <li th:each="sub : ${subscriptions}">
+        Usuario: <span th:text="${sub.user.username}"></span> -
+        Plan: <span th:text="${sub.plan.name}"></span> -
+        Estado: <span th:text="${sub.status}"></span>
+    </li>
+</ul>
+</body>
+</html>

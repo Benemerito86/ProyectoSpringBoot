@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Facturación</title></head>
+<body>
+<h1>Facturación</h1>
+
+<table border="1">
+    <tr><th>ID</th><th>IssueAt</th><th>Total</th><th>Currency</th><th>Status</th></tr>
+
+    <tr th:if="${facturas == null || #lists.isEmpty(facturas)}">
+        <td colspan="5">No hay facturas (todavía).</td>
+    </tr>
+
+    <tr th:each="f : ${facturas}">
+        <td th:text="${f.id}">1</td>
+        <td th:text="${f.issueAt}">...</td>
+        <td th:text="${f.totalCents}">0</td>
+        <td th:text="${f.currency}">USD</td>
+        <td th:text="${f.status}">ISSUED</td>
+    </tr>
+</table>
+
+<a th:href="@{/}">Volver</a>
+</body>
+</html>

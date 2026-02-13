@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SaaS Core</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        th { background: #f5f5f5; text-align: left; }
+
+        .muted { color: #666; font-size: 0.9em; }
+        .error { color: #b00020; margin: 10px 0; }
+        .ok { color: #0a7a0a; margin: 10px 0; }
+
+        /* Para que los botones/formularios en “Acciones” no se bajen de línea */
+        .row-actions form { display: inline; margin-left: 6px; }
+        .row-actions a { margin-right: 6px; }
+    </style>
+
+</head>
+
+<body>
+
+<h1>SaaS Core</h1>
+
+<div class="error" th:if="${error != null}" th:text="${error}"></div>
+<div class="ok" th:if="${msg != null}" th:text="${msg}"></div>
+
+<h2>Crear suscripción</h2>
+<form action="/subscribe" method="post">
+    <select name="planId">
+        <option th:each="plan : ${plans}"
+                th:value="${plan.id}"
+                th:text="${plan.name} + ' - €' + ${plan.priceMonthlyCents / 100} + ' ' + ${plan.currency}">
+        </option>
+    </select>
+    <button type="submit">Suscribirse</button>
+</form>
+
+<h2>Acciones</h2>
+<form th:action="@{/renovar-ahora}" method="post" style="display:inline;">
+    <button type="submit">Demo: Renovar Pendientes</button>
+</form>
+
+<a th:href="@{/facturacion(email='dev@test.com', desde='2026-02-01')}" style="margin-left:10px;">
+    Ver Facturación
+</a>
+
+<p class="muted">“Renovar pendientes” solo procesa suscripciones ACTIVE con nextBillingAt &lt;= ahora.</p>
+
+<hr/>
+
+<h2>País (para IVA)</h2>
+
+<div th:if="${demoUser == null}">
+    No hay usuarios en la BD (crea uno en DataInitializer).
+</div>
+
+<div th:if="${demoUser != null}">
+    <div class="muted">
+        Usuario demo: <span th:text="${demoUser.email}">dev@test.com</span> |
+        País actual: <span th:text="${demoProfile != null ? demoProfile.country : 'N/A'}">ES</span>
+    </div>
+
+    <form th:action="@{/perfil/country}" method="post">
+        <input type="hidden" name="userId" th:value="${demoUser.id}"/>
+
+        <select name="country">
+            <option value="ES" th:selected="${demoProfile != null and demoProfile.country == 'ES'}">ES (21%)</option>
+            <option value="PT" th:selected="${demoProfile != null and demoProfile.country == 'PT'}">PT (23%)</option>
+            <option value="FR" th:selected="${demoProfile != null and demoProfile.country == 'FR'}">FR (20%)</option>
+            <option value="US" th:selected="${demoProfile != null and demoProfile.country == 'US'}">US (0%)</option>
+        </select>
+
+        <button type="submit">Guardar país</button>
+    </form>
+</div>
+
+<hr/>
+
+<h2>Suscripciones</h2>
+
+<form th:action="@{/subscriptions/delete-all}" method="post"
+      onsubmit="return confirm('¿Seguro que quieres borrar TODAS las suscripciones?');">
+    <button type="submit">Borrar todas</button>
+</form>
+
+<br/>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Plan</th>
+        <th>Next billing</th>
+        <th>Status</th>
+        <th>Acciones</th>
+    </tr>
+
+    <tr th:if="${subscriptions == null || #lists.isEmpty(subscriptions)}">
+        <td colspan="6">No hay suscripciones</td>
+    </tr>
+
+    <tr th:each="s : ${subscriptions}">
+        <td th:text="${s.id}">1</td>
+        <td th:text="${s.user != null ? s.user.email : 'N/A'}">dev@test.com</td>
+        <td th:text="${s.plan != null ? s.plan.name : 'N/A'}">Basic</td>
+        <td th:text="${s.nextBillingAt}">...</td>
+        <td th:text="${s.status}">ACTIVE</td>
+
+        <td class="row-actions">
+            <a th:href="@{/admin/auditoria(subscriptionId=${s.id})}">Auditar</a>
+
+            <!-- Cambiar estado (FORM 1) -->
+            <form th:action="@{/subscriptions/{id}/status(id=${s.id})}" method="post">
+                <select name="status">
+                    <option value="ACTIVE" th:selected="${s.status.name() == 'ACTIVE'}">ACTIVE</option>
+                    <option value="CANCELLED" th:selected="${s.status.name() == 'CANCELLED'}">CANCELLED</option>
+                    <option value="OVERDUE" th:selected="${s.status.name() == 'OVERDUE'}">OVERDUE</option>
+                </select>
+                <button type="submit">Cambiar</button>
+            </form>
+
+            <!-- Poner pendiente (FORM 2 separado) -->
+            <form th:action="@{/subscriptions/{id}/make-pending(id=${s.id})}" method="post">
+                <button type="submit">Poner pendiente</button>
+            </form>
+
+            <!-- Borrar (FORM 3 separado) -->
+            <form th:action="@{/subscriptions/{id}/delete(id=${s.id})}" method="post"
+                  onsubmit="return confirm('¿Borrar suscripción ID ' + [[${s.id}]] + '?');">
+                <button type="submit">Borrar</button>
+            </form>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

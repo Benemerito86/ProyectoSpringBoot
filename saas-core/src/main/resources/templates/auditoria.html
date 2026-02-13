@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Auditoría Suscripción</title>
+</head>
+<body>
+
+<h1>Auditoría (Admin)</h1>
+
+<p>
+    Suscripción ID: <b th:text="${subscription.id}">1</b>
+    | Usuario: <span th:text="${subscription.user.email}">dev@test.com</span>
+    | Plan actual: <span th:text="${subscription.plan.name}">Basic</span>
+    | Estado actual: <span th:text="${subscription.status}">ACTIVE</span>
+</p>
+
+<h2>Historial de cambios (Envers)</h2>
+
+<table border="1">
+    <tr>
+        <th>#</th>
+        <th>Plan</th>
+        <th>Estado</th>
+        <th>Billing anchor</th>
+        <th>Next billing</th>
+        <th>Cancelado</th>
+    </tr>
+
+    <tr th:if="${historial == null || #lists.isEmpty(historial)}">
+        <td colspan="6">No hay revisiones (aún no hubo cambios).</td>
+    </tr>
+
+    <tr th:each="h, iter : ${historial}">
+        <td th:text="${iter.index + 1}">1</td>
+        <td th:text="${h.plan != null ? h.plan.name : 'N/A'}">Basic</td>
+        <td th:text="${h.status}">ACTIVE</td>
+        <td th:text="${h.billingAnchorAt}">...</td>
+        <td th:text="${h.nextBillingAt}">...</td>
+        <td th:text="${h.canceledAt}">...</td>
+    </tr>
+</table>
+
+<p><a th:href="@{/}">Volver</a></p>
+</body>
+</html>

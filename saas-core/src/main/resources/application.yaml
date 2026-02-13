@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/saas_core
+    username: saas
+    password: saas
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      org:
+        hibernate:
+          envers:
+            audit_table_suffix: _aud
+  flyway:
+    enabled: true
+
+logging:
+  level:
+    org.flywaydb: debug
+    org.hibernate.SQL: debug
+    org.hibernate.envers: info

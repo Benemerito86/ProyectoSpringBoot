@@ -17,7 +17,7 @@ public class Plan {
     private String code;
 
     @Column(nullable = false, length = 100)
-    private String name;
+    private String name; // Basic, Premium, Enterprise
 
     @Column(nullable = false, length = 30)
     private String level;
@@ -31,6 +31,7 @@ public class Plan {
     @Column(nullable = false)
     private Boolean active = true;
 
+    // Helper field for backward compatibility with existing code
     @Transient
-    private Integer durationDays = 30;
+    private Integer durationDays = 30; // Default 30 days
 }

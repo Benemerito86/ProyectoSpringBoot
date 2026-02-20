@@ -1,4 +1,3 @@
-/home/benemerito/IdeaProjects/saas-core/src/main/java/com/tuorg/saas_core/BillingService.java
 /home/benemerito/IdeaProjects/saas-core/src/main/java/com/tuorg/saas_core/controller/SubscriptionController.java
 /home/benemerito/IdeaProjects/saas-core/src/main/java/com/tuorg/saas_core/model/SubscriptionStatus.java
 /home/benemerito/IdeaProjects/saas-core/src/main/java/com/tuorg/saas_core/model/Profile.java
@@ -9,10 +8,8 @@
 /home/benemerito/IdeaProjects/saas-core/src/main/java/com/tuorg/saas_core/repository/UserRepository.java
 /home/benemerito/IdeaProjects/saas-core/src/main/java/com/tuorg/saas_core/DataInitializer.java
 /home/benemerito/IdeaProjects/saas-core/src/main/java/com/tuorg/saas_core/model/Plan.java
-/home/benemerito/IdeaProjects/saas-core/src/main/java/com/tuorg/saas_core/repository/InvoiceRepository.java
 /home/benemerito/IdeaProjects/saas-core/src/main/java/com/tuorg/saas_core/repository/PlanRepository.java
 /home/benemerito/IdeaProjects/saas-core/src/main/java/com/tuorg/saas_core/repository/ProfileRepository.java
-/home/benemerito/IdeaProjects/saas-core/src/main/java/com/tuorg/saas_core/TaxService.java
 /home/benemerito/IdeaProjects/saas-core/src/main/java/com/tuorg/saas_core/model/PaymentMethod.java
 /home/benemerito/IdeaProjects/saas-core/src/main/java/com/tuorg/saas_core/model/Invoice.java
 /home/benemerito/IdeaProjects/saas-core/src/main/java/com/tuorg/saas_core/model/Subscription.java

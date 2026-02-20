@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.tuorg.saas_core.repository.PlanRepositoryTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.587 s -- in com.tuorg.saas_core.repository.PlanRepositoryTest
